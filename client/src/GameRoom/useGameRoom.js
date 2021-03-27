@@ -24,7 +24,7 @@ export default function useGameRoom(roomId, name) {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const res = await axios.get(`${SOCKET_SERVER_URL}/rooms/${roomId}/users`);
+            const res = await axios.get(`${SOCKET_SERVER_URL}/api/rooms/${roomId}/users`);
             const result = res.data;
             setUsers(result)
         }
@@ -34,7 +34,7 @@ export default function useGameRoom(roomId, name) {
 
     useEffect(() => {
         const fetchRoomStatus = async () => {
-            const res = await axios.get(`${SOCKET_SERVER_URL}/rooms/${roomId}`);
+            const res = await axios.get(`${SOCKET_SERVER_URL}/api/rooms/${roomId}`);
             const { users, quote, gameInProgress } = res.data;
 
             setUsers([...users]);

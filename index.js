@@ -18,13 +18,7 @@ const app = express();
 app.use(cors());
 
 const server = http.createServer(app);
-const io = socketIo(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"],
-        // credentials: true
-    }
-})
+const io = socketIo(server)
 const PORT = process.env.PORT || 3001;
 
 
@@ -82,13 +76,13 @@ io.on("connection", (socket) => {
     });
 })
 
-app.get("/rooms/:roomId/users", (req, res) => {
+app.get("/api/rooms/:roomId/users", (req, res) => {
     const users = getUsersInRoom(req.params.roomId);
     return res.json(users);
 });
 
 // TODO: Endpoint to generate random text prompt
-app.get("/rooms/:roomId", (req, res) => {
+app.get("/api/rooms/:roomId", (req, res) => {
     // users
     const users = getUsersInRoom(req.params.roomId);
     // randomQuote
@@ -109,6 +103,16 @@ app.get("/rooms/:roomId", (req, res) => {
         gameInProgress
     })
 });
+
+if (process.env.NODE_ENV === 'production') {
+    // Express will serve up production assets like our main.js/css file
+    app.use(express.static('./client/build'));
+    // Express will serve up index.html if it doesn't recognize route
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
 
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
