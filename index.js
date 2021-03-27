@@ -15,10 +15,23 @@ const {
     checkNoMoreUsersInRoom
 } = require('./users');
 const app = express();
-app.use(cors());
 
 const server = http.createServer(app);
-const io = socketIo(server)
+let io;
+if(!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+    console.log("In dev");
+    app.use(cors());
+    io = socketIo(server, {
+        cors: {
+            origin: "http://localhost:3000",
+            methods: ["GET", "POST"],
+            // credentials: true
+        }
+    });
+} else {
+    io = socketIo(server);
+}
+
 const PORT = process.env.PORT || 3001;
 
 
