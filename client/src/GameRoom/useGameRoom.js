@@ -5,7 +5,7 @@ import socketEvents from './socketEvents';
 import useGameCountdown from '../useGameCountdown';
 
 // const SOCKET_SERVER_URL = "http://localhost:3001";
-const SOCKET_SERVER_URL = process.env.NODE_ENV === "development" ? "http://localhost:3001" : window.location.host;
+const SOCKET_SERVER_URL = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 export default function useGameRoom(roomId, name) {
     const [users, setUsers] = useState([]);
