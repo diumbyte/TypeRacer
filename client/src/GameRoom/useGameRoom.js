@@ -4,7 +4,7 @@ import socketIoClient from 'socket.io-client';
 import socketEvents from './socketEvents';
 import useGameCountdown from '../useGameCountdown';
 
-const SOCKET_SERVER_URL = "http://localhost:3001";
+const SOCKET_SERVER_URL = window.location.host;
 
 export default function useGameRoom(roomId, name) {
     const [users, setUsers] = useState([]);
