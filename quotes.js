@@ -38,10 +38,12 @@ const deleteRoom = (roomId) => {
     quotes.splice(quotes.indexOf(q => q.room === roomId), 1);
 }
 
+const checkRoomExist = (room) => quotes.find(q => q.room === room) !== undefined;
 module.exports = {
     setQuote,
     getQuoteInRoom,
     resetRoomStatuses,
     getRoomStatus,
-    deleteRoom
+    deleteRoom,
+    checkRoomExist
 }

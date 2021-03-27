@@ -36,10 +36,12 @@ export default function useGameRoom(roomId, name) {
     useEffect(() => {
         const fetchRoomStatus = async () => {
             const res = await axios.get(`${SOCKET_SERVER_URL}/api/rooms/${roomId}`);
-            const { users, quote, gameInProgress } = res.data;
+            const { usersFetch, quote, gameInProgress } = res.data;
 
-            setUsers([...users]);
             setGameInProgress(gameInProgress);
+            if (usersFetch !== undefined) {
+                setUsers([...usersFetch]);
+            }
             
             if(gameInProgress) {
                 setRandomQuote(quote);
@@ -59,16 +61,17 @@ export default function useGameRoom(roomId, name) {
         })
 
         socketRef.current.on("connect", () => {
+            const self = {
+                id: socketRef.current.id,
+                isSelf: true,
+                name,
+                typingComplete: false,
+                currentIndex: 0
+            }
             setUsers((users) => 
                 [
                     ...users, 
-                    {
-                        id: socketRef.current.id,
-                        isSelf: true,
-                        name,
-                        typingComplete: false,
-                        currentIndex: 0
-                    }
+                    self
                 ]
             );
         })

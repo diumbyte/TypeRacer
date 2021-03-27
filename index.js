@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const socketIo = require('socket.io');
 const socketEvents = require('./socket/events');
-const { setQuote, getQuoteInRoom, getRoomStatus, resetRoomStatuses, deleteRoom } = require('./quotes');
+const { setQuote, getQuoteInRoom, getRoomStatus, resetRoomStatuses, deleteRoom, checkRoomExist } = require('./quotes');
 const { 
     addUser, 
     removeUser, 
@@ -96,6 +96,14 @@ app.get("/api/rooms/:roomId/users", (req, res) => {
 
 // TODO: Endpoint to generate random text prompt
 app.get("/api/rooms/:roomId", (req, res) => {
+    if(!checkRoomExist(req.params.roomId)) {
+        return res.json({
+            users: [],
+            quote: "",
+            gameInProgress: false
+        })
+    }
+    
     // users
     const users = getUsersInRoom(req.params.roomId);
     // randomQuote
