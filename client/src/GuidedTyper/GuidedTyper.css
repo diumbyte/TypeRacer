@@ -1,0 +1,19 @@
+.guided-typer {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+.text__correct {
+    color: green;
+}
+  
+.text__current {
+    text-decoration: underline;
+}
+
+.text__incorrect {
+    background-color: rgb(255, 143, 143);
+    text-decoration: underline;
+}

@@ -1,0 +1,56 @@
+.App {
+  text-align: center;
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.text-input {
+  display: block;
+  margin: 1rem auto;
+  width: 40%;
+  height: 40px;
+  font-size: 1.25rem;
+  border: 2px solid rgb(134, 134, 134);
+  border-radius: 4px;
+  padding-left: .5rem;
+}
+
+.btn {
+  width: 40%;
+  padding: .75rem;
+  border-radius: 5rem;
+  border: 2px solid rgb(134, 134, 134);
+  font-size: 1.25rem;
+  transition: all 0.4s ease 0s;
+  outline: none;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background: #797979;
+  /* letter-spacing: 1px; */
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.4s ease 0s;
+  color: #eee;
+}
+
+.text-input:disabled,
+.text-input[disabled] {
+  cursor: not-allowed;
+  background-color: rgb(235, 235, 228);
+  border-color: rgba(134, 134, 134, .2);
+}
+
+.btn:disabled,
+.btn[disabled] {
+  cursor: not-allowed;
+  background-color: rgb(235, 235, 228);
+  border-color: rgba(134, 134, 134, .2);
+  color:rgba(16, 16, 16, .1)
+}
