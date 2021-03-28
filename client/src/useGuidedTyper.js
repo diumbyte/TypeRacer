@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useEventListener from './useEventListener';
 
 const checkIfValidTextKey = (key) => {
-  return (/^[a-z0-9'",.\-\_&\(\);\:\?\\\[\]]$/i.test(key) && key.length === 1)
+  return (/^[a-z0-9'",.\-\_&\(\);\:\?\\\[\] ]$/i.test(key) && key.length === 1)
 }
 
 export default function useGuidedTyper(inputRef, quote = "", setInputText, userCompletedTyping, updateCurrentIndex) {
