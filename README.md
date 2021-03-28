@@ -1,5 +1,7 @@
 # TypeRacer Clone
 ![Game Room Preview](./readme_assets/GameRoom_Preview.jpg)
+## Demo
+* https://typezoomer.herokuapp.com/
 # Functionality
 ## Flow
 ### If a user wants to create their own room:
