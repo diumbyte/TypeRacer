@@ -1,4 +1,4 @@
-# TypeRacer Clone
+# TypeZoomer | TypeRacer Clone
 ![Game Room Preview](./readme_assets/GameRoom_Preview.jpg)
 ## Demo
 * https://typezoomer.herokuapp.com/
