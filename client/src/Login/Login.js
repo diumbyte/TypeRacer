@@ -1,10 +1,11 @@
 import { nanoid } from 'nanoid';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext/UserContext';
 import { useHistory } from 'react-router-dom';
 
 export default function Login(props) {
     const [username, setUsername] = useState("");
+    const [redirectPath, setRedirectPath] = useState("");
     const { setUser } = useContext(UserContext);
     const history = useHistory();
 
@@ -15,15 +16,23 @@ export default function Login(props) {
     const onSubmit = (e) => {
         e.preventDefault();
         setUser(username);
-        
-        const redirectPath = window.localStorage.getItem('redirectUrl');
 
         if(redirectPath) {
-            window.localStorage.removeItem('redirectUrl')    ;
+            window.localStorage.removeItem('redirectUrl');
+            setRedirectPath("");
             return history.push(redirectPath);
         }
         history.push(nanoid(8));
     }
+
+    useEffect(() => {
+        setRedirectPath(window.localStorage.getItem('redirectUrl'));
+
+        return () => {
+            setRedirectPath("");
+            window.localStorage.removeItem('redirectUrl')
+        }
+    }, []);
     
     return (
         <div className="login">
@@ -42,7 +51,7 @@ export default function Login(props) {
                     onClick={onSubmit}
                     disabled={username === ""}
                 >
-                    Enter
+                    {!redirectPath ? "Create Room" : `Enter Room ${redirectPath.substring(1)}`}
                 </button>
             </form>
         </div>
