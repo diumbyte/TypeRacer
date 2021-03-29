@@ -2,6 +2,7 @@
 ![Game Room Preview](./readme_assets/GameRoom_Preview.jpg)
 ## Demo
 * https://typezoomer.herokuapp.com/
+* Navigate to the same room link in a new tab to simulate multiple users in the same room.
 # Functionality
 ## Flow
 ### If a user wants to create their own room:

@@ -5,6 +5,7 @@ import GuidedTyper from '../GuidedTyper/GuidedTyper';
 import ProgressBarList from '../ProgressBarList/ProgressBarList';
 import useGameRoom from './useGameRoom';
 import { UserContext } from '../UserContext/UserContext';
+import ClipboardCopyIcon from '../assets/content-copy.svg';
 import './GameRoom.css';
 
 export default function GameRoom() {
@@ -34,6 +35,15 @@ export default function GameRoom() {
     
     return (
         <div className="container">
+            <div className="room-info">
+                <h2>Room {roomId}</h2>
+                <img 
+                    src={ClipboardCopyIcon} 
+                    alt="Clipboard Copy Icon" 
+                    className="copy-icon"
+                    onClick={() => navigator.clipboard.writeText(`${window.location.host}/${roomId}`)}
+                />
+            </div>
             {
                 (startCountdown)
                 ?   <GameCountdown seconds={timeLeft}/>
