@@ -8,10 +8,11 @@
 
 .progress-info {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: space-between;
 }
 
-.progress-username {
+.progress-username, .elapsed-time {
     font-size: 1.5rem;
 }
 

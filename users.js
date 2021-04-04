@@ -14,7 +14,9 @@ const addUser = (id, room, name) => {
         room,
         name,
         typingComplete: false,
-        currentIndex: 0
+        currentIndex: 0,
+        // startTime: 0,
+        // elapsedTime: 0
     };
 
     users.push(user);
@@ -22,7 +24,8 @@ const addUser = (id, room, name) => {
         id, 
         name: user.name, 
         typingComplete: user.typingComplete,
-        currentIndex: user.currentIndex
+        currentIndex: user.currentIndex,
+        // elapsedTime: user.elapsedTime
     }
 }
 
@@ -62,6 +65,24 @@ const getUsersInRoom = (room) => users.filter(user => user.room === room);
 
 const checkNoMoreUsersInRoom = (roomId) => users.filter(u => u.room === roomId).length === 0;
 
+const updateUsersStartTime = (roomId) => {
+    const currentTime = new Date() * 1;
+
+    users.filter(u => u.roomId === roomId).forEach(u => {
+        u.elapsedTime = 0;
+        u.startTime = currentTime;
+    });
+}
+
+const setUserElapsedTime = (userId) => {
+    const userIdx = users.findIndex(u => u.id === userId);
+    if(userIdx === -1) return;
+
+    const currentTime = new Date() * 1;
+
+    users[userIdx].elapsedTime = currentTime - users[userIdx].startTime;
+}
+
 module.exports = {
     addUser,
     removeUser,
@@ -71,5 +92,7 @@ module.exports = {
     updateUserTypingStatus,
     resetUsersStatuses,
     updateUserCurrentIndex,
-    checkNoMoreUsersInRoom
+    checkNoMoreUsersInRoom,
+    updateUsersStartTime,
+    setUserElapsedTime
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import socketIoClient from 'socket.io-client';
 import socketEvents from './socketEvents';
 import useGameCountdown from '../useGameCountdown';
+import useElapsedTime from '../useElapsedTime';
 
 // const SOCKET_SERVER_URL = "http://localhost:3001";
 const SOCKET_SERVER_URL = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
@@ -13,8 +14,13 @@ export default function useGameRoom(roomId, name) {
     const [gameInProgress, setGameInProgress] = useState(false);
     const [restartPending, setRestartPending] = useState(true);
     const [userCompletedText, setUserCompletedText] = useState(true);
-
     const socketRef = useRef();
+    
+    const {
+        elapsedTime,
+        startTimer,
+        stopTimer
+    } = useElapsedTime();
 
     const onGameStarted = () => {
         setUserCompletedText(false);
@@ -66,7 +72,9 @@ export default function useGameRoom(roomId, name) {
                 isSelf: true,
                 name,
                 typingComplete: false,
-                currentIndex: 0
+                currentIndex: 0,
+                startTime: 0,
+                elapsedTime: 0
             }
             setUsers((users) => 
                 [
@@ -93,15 +101,27 @@ export default function useGameRoom(roomId, name) {
         })
 
         socketRef.current.on(socketEvents.GAME_START, (quotePayload) => {
+            const currentTime = new Date() * 1;
+
             setRandomQuote(quotePayload.content);
             setStartCountdown(true);
-            setUsers(currentUsers => currentUsers.map((u) => ({ ...u, typingComplete: false})));
+            setUsers(currentUsers => currentUsers.map((u) => (
+                { 
+                    ...u, 
+                    typingComplete: false, 
+                    startTime: currentTime,
+                    elapsedTime: 0
+                }
+                    )
+                )
+            );
         })
 
         socketRef.current.on(socketEvents.USER_COMPLETED_TEXT, (userIdThatCompletedText) => {
+            const currentTime = new Date() * 1;
             setUsers(currentUsers => currentUsers.map(u => 
                 u.id === userIdThatCompletedText
-                ? { ...u, typingComplete: true}
+                ? { ...u, typingComplete: true, elapsedTime: currentTime - u.startTime}
                 : u
             ));
         })

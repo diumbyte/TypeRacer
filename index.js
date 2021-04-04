@@ -3,7 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const socketIo = require('socket.io');
 const socketEvents = require('./socket/events');
-const { setQuote, getQuoteInRoom, getRoomStatus, resetRoomStatuses, deleteRoom, checkRoomExist } = require('./quotes');
+const { 
+    setQuote, 
+    getQuoteInRoom, 
+    getRoomStatus, 
+    resetRoomStatuses, 
+    deleteRoom, 
+    checkRoomExist 
+} = require('./quotes');
 const { 
     addUser, 
     removeUser, 
@@ -12,7 +19,9 @@ const {
     checkIfAllUsersCompletedText,
     updateUserTypingStatus,
     updateUserCurrentIndex,
-    checkNoMoreUsersInRoom
+    checkNoMoreUsersInRoom,
+    updateUsersStartTime,
+    setUserElapsedTime
 } = require('./users');
 const app = express();
 
@@ -59,11 +68,13 @@ io.on("connection", (socket) => {
     /******* Game Started ************/
     socket.on(socketEvents.GAME_START, async () => {
         const quotePayload = await setQuote(roomId);
+        // updateUsersStartTime(roomId);
         io.in(roomId).emit(socketEvents.GAME_START, quotePayload);
     });
     /******* User Completed Text ************/
     socket.on(socketEvents.USER_COMPLETED_TEXT, () => {
         updateUserTypingStatus(socket.id);
+        // setUserElapsedTime(socket.id);
         io.in(roomId).emit(socketEvents.USER_COMPLETED_TEXT, socket.id);
 
         /******* Game Ended (All Users Completed Text) ************/

@@ -14,6 +14,8 @@ export default function ProgressBarList({users, quoteLength = 1, gameInProgress}
         }
     }
 
+    const formattedElapsedTime = (deltaTime) => (deltaTime / 1000).toFixed(2);
+    
     const fillerColor = (userIsSelf) => userIsSelf ? 'rgba(42, 127, 98, 100)': 'rgba(42, 127, 98, 0.3)';
     
     return (
@@ -22,12 +24,19 @@ export default function ProgressBarList({users, quoteLength = 1, gameInProgress}
                 users.map(user => (
                     <li key={`${user.id}_progress`}>
                         <div className="progress-info">
+                            <div className="keep-left">
+                                {
+                                    showTextCompletedIndicator(user)
+                                    ?   <img className="svg-icon checkmark" src={CheckmarkIcon} alt="Checkmark icon"/>
+                                    : <></>
+                                }
+                                <span className="progress-username">{user.name}</span> 
+                            </div>
                             {
                                 showTextCompletedIndicator(user)
-                                ?   <img className="svg-icon checkmark" src={CheckmarkIcon} alt="Checkmark icon"/>
+                                ? <span className="elapsed-time">{formattedElapsedTime(user.elapsedTime)}s</span>
                                 : <></>
                             }
-                            <span className="progress-username">{user.name}</span> 
                         </div>
                         <ProgressBar
                             percentage={percentage(user.currentIndex)}
